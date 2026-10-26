@@ -2,6 +2,14 @@
 
 A Flask-based financial dashboard that provides a simple interface to explore financial records, visualize sample profit/loss trends, upload CSV or Excel data, and ask basic questions about the uploaded dataset.
 
+## Dashboard Screenshots
+
+### 1. Financial Overview
+![FinSight Dashboard Overview](screenshots/dashboard1.png)
+
+### 2. Financial Dashboard — Additional View
+![FinSight Dashboard Details](screenshots/dashboard2.png)
+
 ## Features
 
 - Dashboard interface built with HTML, CSS, and JavaScript
