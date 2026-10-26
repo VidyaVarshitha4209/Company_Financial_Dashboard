@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinSight | Financial Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">F</span><span>FinSight</span></div>
+      <p class="menu-label">WORKSPACE</p>
+      <a class="nav-link active" href="#"><span>▦</span> Overview</a>
+      <a class="nav-link" href="#data-section"><span>▤</span> Financial Data</a>
+      <a class="nav-link" href="#chat-section"><span>◌</span> AI Assistant</a>
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <div class="help-icon">?</div>
+          <strong>Need help?</strong>
+          <p>Upload a spreadsheet to explore your financial data.</p>
+        </div>
+        <div class="profile"><div class="avatar">V</div><div><strong>Dashboard User</strong><small>Workspace</small></div></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">FINANCIAL WORKSPACE</p>
+          <h1>Financial Overview</h1>
+          <p class="subtitle">Understand your numbers. Make smarter decisions.</p>
+        </div>
+        <div class="top-actions"><span class="status-dot"></span><span>Live Dashboard</span><div class="top-avatar">V</div></div>
+      </header>
+
+      <section class="welcome-row">
+        <div><h2>Welcome back 👋</h2><p>Here’s a snapshot of your financial data.</p></div>
+        <label class="upload-button" for="fileInput">＋ Upload Excel / CSV</label>
+        <input id="fileInput" type="file" accept=".xlsx,.xls,.csv" hidden />
+      </section>
+      <div id="fileMessage" class="file-message">Upload an Excel/CSV file to visualize custom financial insights.</div>
+
+      <section class="stats-grid">
+        <article class="stat-card"><div class="stat-top"><span>Total Revenue</span><span class="stat-icon blue">↗</span></div><h3 id="revenueValue">₹1,80,000</h3><p class="stat-note">From current dataset</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Total Expenses</span><span class="stat-icon orange">↘</span></div><h3 id="expenseValue">₹1,25,000</h3><p class="stat-note">From current dataset</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Net Result</span><span class="stat-icon green">₹</span></div><h3 id="profitValue">₹55,000</h3><p class="stat-note positive">Net profit status</p></article>
+        <article class="stat-card"><div class="stat-top"><span>Records Analyzed</span><span class="stat-icon purple">▤</span></div><h3 id="recordsValue">13</h3><p class="stat-note">Total rows processed</p></article>
+      </section>
+
+      <!-- Date Filter Section & Trend Charts -->
+      <section class="content-grid">
+        <article class="panel" style="flex: 1;">
+          <div class="panel-heading">
+            <div>
+              <h3>Select Date</h3>
+              <p>View daily financial breakdown</p>
+            </div>
+          </div>
+          <select id="dateDropdown" class="date-select" style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc;">
+            <!-- Dates will load dynamically -->
+          </select>
+          <div id="dailyBarChart" style="width:100%; height:280px;"></div>
+        </article>
+
+        <article class="panel" style="flex: 2;">
+          <div class="panel-heading">
+            <div>
+              <h3>Profit and Loss Trend</h3>
+              <p>Timeline visualization across dates</p>
+            </div>
+          </div>
+          <div id="trendLineChart" style="width:100%; height:280px;"></div>
+        </article>
+      </section>
+
+      <section class="content-grid lower-grid">
+        <article class="panel" id="data-section">
+          <div class="panel-heading"><div><h3>Recent Financial Records</h3><p>Parsed dataset transactions</p></div><span class="pill" id="recordCountPill">5 records</span></div>
+          <div class="table-scroll"><table><thead><tr><th>Date</th><th>Category</th><th>Revenue</th><th>Expenses</th><th>Status</th><th>Confidential</th></tr></thead>
+            <tbody id="recordsTable">
+              <tr><td>01-06-2025</td><td>Sales</td><td>₹3,100</td><td>₹6,500</td><td><span class="tag profit">Profit</span></td><td>No</td></tr>
+              <tr><td>02-06-2025</td><td>Operations</td><td>₹3,000</td><td>₹2,800</td><td><span class="tag profit">Profit</span></td><td>No</td></tr>
+              <tr><td>03-06-2025</td><td>Services</td><td>₹3,600</td><td>₹2,800</td><td><span class="tag profit">Profit</span></td><td>No</td></tr>
+              <tr><td>04-06-2025</td><td>Refund</td><td>₹3,600</td><td>₹3,400</td><td><span class="tag profit">Profit</span></td><td>Yes</td></tr>
+              <tr><td>05-06-2025</td><td>Operations</td><td>₹2,300</td><td>₹3,400</td><td><span class="tag loss">Loss</span></td><td>Yes</td></tr>
+            </tbody></table></div>
+        </article>
+
+        <article class="panel chat-panel" id="chat-section">
+          <div class="panel-heading"><div><h3>AI Financial Assistant</h3><p>Ask questions about your data</p></div><span class="online-badge">● Online</span></div>
+          <div class="chat-messages" id="chatMessages">
+            <div class="bot-message"><span class="bot-avatar">✦</span><div><small>FinSight Assistant</small><p>Hi! Try asking “How many entries are in loss?” or “What is the refund amount on 01-04-2024?”</p></div></div>
+          </div>
+          <div class="suggestions">
+            <button class="suggestion" onclick="sendQuickQuery('How many entries are in loss?')">How many entries are in loss?</button>
+            <button class="suggestion" onclick="sendQuickQuery('What is the refund amount on 01-04-2024?')">What is the refund amount on 01-04-2024?</button>
+          </div>
+          <form id="chatForm" class="chat-form"><input id="chatInput" type="text" placeholder="Ask a financial question..." autocomplete="off" /><button type="submit" aria-label="Send message">➤</button></form>
+        </article>
+      </section>
+      <footer>FinSight Financial Dashboard <span>Built with Flask, Machine Learning & AWS</span></footer>
+    </main>
+  </div>
+</body>
+</html>
