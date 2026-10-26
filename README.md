@@ -88,6 +88,4 @@ The current model is trained on a very small illustrative text dataset. Treat it
 - The chatbot uses rule-based keyword matching; it is not connected to a generative AI service.
 - Plotly.js is loaded from a CDN, so the browser needs internet access to load the chart library.
 
-## License
 
-Add a license file if you choose to publish this project for reuse.
